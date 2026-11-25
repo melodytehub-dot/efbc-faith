@@ -62,6 +62,10 @@ export function SongLibrary({ kind }: { kind: "hymns" | "readings" }) {
       </div>
 
       <ul className="hymn-grid" style={{ listStyle: "none", margin: 0, padding: 0 }}>
+        {!songs &&
+          Array.from({ length: 6 }, (_, i) => (
+            <li key={i} className="skel" style={{ height: 72 }} aria-hidden="true" />
+          ))}
         {filtered.map((s) => (
           <li key={s.slug}>
             <Link href={`/${kind}/${s.number}`} className="hymn-card">

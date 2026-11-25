@@ -106,8 +106,13 @@ export function BibleReader() {
 
   if (!data || !book) {
     return (
-      <div className="empty" aria-live="polite">
-        <p>Loading the Bible…</p>
+      <div className="reader" aria-live="polite" aria-busy="true">
+        <span className="skel" style={{ display: "block", height: 28, width: "40%" }} />
+        <span className="skel" style={{ display: "block", height: 18, marginTop: 28 }} />
+        <span className="skel" style={{ display: "block", height: 18, marginTop: 12 }} />
+        <span className="skel" style={{ display: "block", height: 18, width: "85%", marginTop: 12 }} />
+        <span className="skel" style={{ display: "block", height: 18, width: "60%", marginTop: 12 }} />
+        <p className="muted" style={{ marginTop: 24 }}>Loading the Bible…</p>
       </div>
     );
   }

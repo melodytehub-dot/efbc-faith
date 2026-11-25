@@ -61,7 +61,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section welcome-band">
+      <section className="section welcome-band reveal">
         <div className="stack">
           <span className="eyebrow">Welcome to EFBC</span>
           <h2>Experience God&apos;s love and grace</h2>
@@ -87,7 +87,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section" aria-label="At a glance">
+      <section className="section reveal" aria-label="At a glance">
         <div className="stat-row">
           <div className="stat">
             <b>514</b>
@@ -104,7 +104,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section">
+      <section className="section reveal">
         <div className="section-head">
           <div>
             <span className="eyebrow">Our mission</span>
@@ -120,7 +120,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section" style={{ paddingBottom: 8 }}>
+      <section className="section reveal" style={{ paddingBottom: 8 }}>
         <div className="card" style={{ display: "grid", gap: 18 }}>
           <div className="info-item">
             <span className="tile-ic">

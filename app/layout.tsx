@@ -3,6 +3,7 @@ import { Figtree } from "next/font/google";
 import "./globals.css";
 import { SiteFooter, SiteHeader, TabBar } from "@/components/SiteChrome";
 import { church } from "@/lib/church";
+import Template from "./template";
 
 const figtree = Figtree({ subsets: ["latin"], variable: "--font-figtree", display: "swap" });
 
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#061331",
+  themeColor: "#0d0c0b",
   width: "device-width",
   initialScale: 1,
 };
@@ -36,7 +37,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
         <SiteHeader />
-        <main id="main">{children}</main>
+        <main id="main">
+          <Template>{children}</Template>
+        </main>
         <SiteFooter />
         <TabBar />
       </body>

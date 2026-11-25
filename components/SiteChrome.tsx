@@ -2,22 +2,17 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { Icon, type IconName } from "./Icon";
 import { church } from "@/lib/church";
-
-export function Mark({ className = "" }: { className?: string }) {
-  return <img className={`brand-mark ${className}`.trim()} src="/images/logo-seal.png" alt="" width={40} height={40} />;
-}
 
 const navItems: { href: string; label: string }[] = [
   { href: "/", label: "Home" },
   { href: "/bible", label: "Bible" },
   { href: "/hymns", label: "Hymns" },
-  { href: "/live", label: "Live" },
   { href: "/sermons", label: "Sermons" },
+  { href: "/live", label: "Live" },
   { href: "/ministries", label: "Ministries" },
-  { href: "/events", label: "Events" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
@@ -27,10 +22,9 @@ const menuItems: { href: string; label: string }[] = [
   { href: "/bible", label: "Bible" },
   { href: "/hymns", label: "Hymns" },
   { href: "/readings", label: "Readings" },
-  { href: "/live", label: "Live" },
   { href: "/sermons", label: "Sermons" },
+  { href: "/live", label: "Live" },
   { href: "/ministries", label: "Ministries" },
-  { href: "/events", label: "Events" },
   { href: "/prayer", label: "Prayer request" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
@@ -49,25 +43,41 @@ function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+function Logo({ size = "sm" }: { size?: "sm" | "lg" }) {
+  return (
+    <img
+      className={`brand-logo brand-logo-${size}`}
+      src="/images/logo-full.png"
+      alt={church.name}
+      width={750}
+      height={150}
+    />
+  );
+}
+
 export function SiteHeader() {
   const pathname = usePathname() || "/";
   const [open, setOpen] = useState(false);
+
   useEffect(() => setOpen(false), [pathname]);
+
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
     return () => {
+      document.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
     };
   }, [open]);
+
   return (
+    <>
     <header className="topbar">
       <div className="wrap topbar-inner">
         <Link href="/" className="brand" aria-label={`${church.name} home`}>
-          <Mark />
-          <span className="brand-text">
-            <span className="brand-name">{church.name}</span>
-            <span className="brand-sub">Growing in truth · Living in love</span>
-          </span>
+          <Logo />
         </Link>
         <nav className="nav" aria-label="Main">
           {navItems.map((item) => (
@@ -88,7 +98,7 @@ export function SiteHeader() {
             type="button"
             className="menu-btn"
             aria-expanded={open}
-            aria-controls="site-menu"
+            aria-controls="site-drawer"
             aria-label={open ? "Close menu" : "Open menu"}
             onClick={() => setOpen((v) => !v)}
           >
@@ -96,23 +106,31 @@ export function SiteHeader() {
           </button>
         </div>
       </div>
-      {open && (
-        <nav id="site-menu" className="site-menu" aria-label="Site menu">
-          {menuItems.map((item) => (
+    </header>
+
+    <div className="drawer" id="site-drawer" data-open={open}>
+        <button type="button" className="drawer-scrim" tabIndex={open ? 0 : -1} aria-label="Close menu" onClick={() => setOpen(false)} />
+        <nav className="drawer-panel" aria-label="Site menu" inert={!open}>
+          <div className="drawer-head">
+            <Logo />
+          </div>
+          {menuItems.map((item, i) => (
             <Link
               key={item.href}
               href={item.href}
               aria-current={isActive(pathname, item.href) ? "page" : undefined}
+              style={{ "--i": i } as CSSProperties}
             >
               {item.label}
+              <Icon name="chevron-right" />
             </Link>
           ))}
-          <Link href="/give" className="btn btn-primary site-menu-give">
+          <Link href="/give" className="drawer-give" style={{ "--i": menuItems.length } as CSSProperties}>
             Give
           </Link>
         </nav>
-      )}
-    </header>
+    </div>
+    </>
   );
 }
 
@@ -142,13 +160,7 @@ export function SiteFooter() {
       <div className="wrap">
         <div className="footer-grid">
           <div>
-            <div className="brand">
-              <Mark />
-              <span className="brand-text">
-                <span className="brand-name">{church.name}</span>
-                <span className="brand-sub">{church.motto}</span>
-              </span>
-            </div>
+            <Logo size="lg" />
             <p className="muted" style={{ marginTop: 16, maxWidth: "44ch" }}>
               A Burmese Chin congregation in Star City, Arkansas. Worship in English and Chin.
             </p>
@@ -166,9 +178,9 @@ export function SiteFooter() {
                   <a href={`tel:${church.phoneLinks[i]}`}>{p}</a>
                 </li>
               ))}
-              {church.emails.map((e) => (
+              {church.emails.slice(1).map((e) => (
                 <li key={e}>
-                  {e === church.emails[0] ? <span>{e}</span> : <a href={`mailto:${e}`}>{e}</a>}
+                  <a href={`mailto:${e}`}>{e}</a>
                 </li>
               ))}
             </ul>
@@ -181,6 +193,9 @@ export function SiteFooter() {
               </li>
               <li>
                 <Link href="/hymns">Hymns and readings</Link>
+              </li>
+              <li>
+                <Link href="/sermons">Sermons</Link>
               </li>
               <li>
                 <Link href="/live">Watch live</Link>
