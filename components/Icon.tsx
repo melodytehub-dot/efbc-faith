@@ -20,7 +20,9 @@ type IconName =
   | "heart"
   | "calendar"
   | "arrow-right"
-  | "external";
+  | "external"
+  | "menu"
+  | "close";
 
 const paths: Record<IconName, string> = {
   home: "M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z",
@@ -45,6 +47,8 @@ const paths: Record<IconName, string> = {
   calendar: "M3 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM3 10h18M8 2v4M16 2v4",
   "arrow-right": "M5 12h14M13 6l6 6-6 6",
   external: "M14 3h7v7M21 3l-9 9M19 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h5",
+  menu: "M4 7h16M4 12h16M4 17h16",
+  close: "M6 6l12 12M18 6 6 18",
 };
 
 export function Icon({ name, className = "" }: { name: IconName; className?: string }) {

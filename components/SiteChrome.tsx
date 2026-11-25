@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Icon, type IconName } from "./Icon";
 import { church } from "@/lib/church";
 
@@ -21,6 +22,20 @@ const navItems: { href: string; label: string }[] = [
   { href: "/contact", label: "Contact" },
 ];
 
+const menuItems: { href: string; label: string }[] = [
+  { href: "/", label: "Home" },
+  { href: "/bible", label: "Bible" },
+  { href: "/hymns", label: "Hymns" },
+  { href: "/readings", label: "Readings" },
+  { href: "/live", label: "Live" },
+  { href: "/sermons", label: "Sermons" },
+  { href: "/ministries", label: "Ministries" },
+  { href: "/events", label: "Events" },
+  { href: "/prayer", label: "Prayer request" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
+];
+
 const tabs: { href: string; label: string; icon: IconName }[] = [
   { href: "/", label: "Home", icon: "home" },
   { href: "/bible", label: "Bible", icon: "book" },
@@ -36,6 +51,14 @@ function isActive(pathname: string, href: string) {
 
 export function SiteHeader() {
   const pathname = usePathname() || "/";
+  const [open, setOpen] = useState(false);
+  useEffect(() => setOpen(false), [pathname]);
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
   return (
     <header className="topbar">
       <div className="wrap topbar-inner">
@@ -57,10 +80,38 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-        <Link href="/give" className="btn btn-primary btn-sm top-give">
-          Give
-        </Link>
+        <div className="top-actions">
+          <Link href="/give" className="btn btn-primary btn-sm top-give">
+            Give
+          </Link>
+          <button
+            type="button"
+            className="menu-btn"
+            aria-expanded={open}
+            aria-controls="site-menu"
+            aria-label={open ? "Close menu" : "Open menu"}
+            onClick={() => setOpen((v) => !v)}
+          >
+            <Icon name={open ? "close" : "menu"} />
+          </button>
+        </div>
       </div>
+      {open && (
+        <nav id="site-menu" className="site-menu" aria-label="Site menu">
+          {menuItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              aria-current={isActive(pathname, item.href) ? "page" : undefined}
+            >
+              {item.label}
+            </Link>
+          ))}
+          <Link href="/give" className="btn btn-primary site-menu-give">
+            Give
+          </Link>
+        </nav>
+      )}
     </header>
   );
 }
