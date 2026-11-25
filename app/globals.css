@@ -379,6 +379,7 @@ p { margin: 0; }
 }
 .book-panel select option { background: #1a1512; }
 .chapter-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; padding: 14px; max-height: 300px; overflow: auto; }
+.verse-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px 0; font-size: 14px; color: var(--muted); }
 .chapter-btn {
   aspect-ratio: 1; border-radius: 10px; border: 1px solid var(--line); background: var(--surface);
   cursor: pointer; font-size: 14px; color: var(--muted); transition: background 0.15s, color 0.15s;

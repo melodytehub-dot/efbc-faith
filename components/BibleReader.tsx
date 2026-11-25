@@ -35,6 +35,7 @@ export function BibleReader() {
   const [chapter, setChapter] = useState(1);
   const [query, setQuery] = useState("");
   const [hitVerse, setHitVerse] = useState<number | null>(null);
+  const [pick, setPick] = useState<"chapter" | "verse">("chapter");
   const readerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -80,6 +81,7 @@ export function BibleReader() {
     setBookId(id);
     setChapter(c);
     setHitVerse(v);
+    setPick("verse");
     setQuery("");
     requestAnimationFrame(() => {
       const el = v
@@ -93,6 +95,14 @@ export function BibleReader() {
     setBookId(id);
     setChapter(1);
     setHitVerse(null);
+    setPick("chapter");
+  }
+
+  function pickVerse(v: number) {
+    setHitVerse(v);
+    requestAnimationFrame(() => {
+      readerRef.current?.querySelector(`[data-v="${v}"]`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
   }
 
   if (error) {
@@ -206,22 +216,50 @@ export function BibleReader() {
                 ))}
               </optgroup>
             </select>
-            <div className="chapter-grid" role="group" aria-label="Chapters">
-              {Array.from({ length: chapterCount }, (_, i) => i + 1).map((c) => (
-                <button
-                  key={c}
-                  type="button"
-                  className="chapter-btn"
-                  aria-current={c === chapter ? "true" : undefined}
-                  onClick={() => {
-                    setChapter(c);
-                    setHitVerse(null);
-                  }}
-                >
-                  {c}
-                </button>
-              ))}
-            </div>
+            {pick === "chapter" ? (
+              <div className="chapter-grid" role="group" aria-label="Chapters">
+                {Array.from({ length: chapterCount }, (_, i) => i + 1).map((c) => (
+                  <button
+                    key={c}
+                    type="button"
+                    className="chapter-btn"
+                    aria-current={c === chapter ? "true" : undefined}
+                    onClick={() => {
+                      setChapter(c);
+                      setHitVerse(null);
+                      setPick("verse");
+                    }}
+                  >
+                    {c}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <div className="verse-panel">
+                <div className="verse-panel-head">
+                  <button type="button" className="btn btn-ghost btn-sm" onClick={() => setPick("chapter")}>
+                    <Icon name="chevron-left" /> Chapters
+                  </button>
+                  <span>Chapter {chapter}</span>
+                </div>
+                <div className="chapter-grid" role="group" aria-label={`Verses of chapter ${chapter}`}>
+                  {verses.map((_, i) => {
+                    const v = i + 1;
+                    return (
+                      <button
+                        key={v}
+                        type="button"
+                        className="chapter-btn"
+                        aria-current={v === hitVerse ? "true" : undefined}
+                        onClick={() => pickVerse(v)}
+                      >
+                        {v}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </aside>
 
           <article className="reader" ref={readerRef} aria-live="polite">
@@ -230,7 +268,6 @@ export function BibleReader() {
                 <h2>
                   {book.name} {chapter}
                 </h2>
-                <span className="muted">{data.translation}</span>
               </div>
             </div>
             <div className="verses">
