@@ -1,32 +1,29 @@
-import Icon from '../../components/Icons';
-import Footer from '../../components/Footer';
-import { events, church } from '../../lib/content';
+import type { Metadata } from "next";
+import { Icon } from "@/components/Icon";
+import { church } from "@/lib/church";
+
+export const metadata: Metadata = { title: "Events" };
 
 export default function EventsPage() {
   return (
-    <>
-      <section className="block block--flush">
-        <div className="wrap">
-          <div className="section-head">
-            <div><span className="eyebrow">Events with purpose</span><h1 style={{ fontSize: 'clamp(38px,4.5vw,64px)' }}>What's coming up.</h1></div>
-          </div>
-          <div className="grid grid--2">
-            {events.map((e) => (
-              <div className="card" key={e.id}>
-                <span className="mono" style={{ color: 'var(--p-accent)' }}>{e.date} {e.year}</span>
-                <h3 style={{ marginTop: 12 }}>{e.title}</h3>
-                <p style={{ marginTop: 8 }}>{e.note}</p>
-                <p style={{ marginTop: 16, display: 'flex', gap: 8, alignItems: 'center' }}><Icon name="pin" className="icon" />{e.place}</p>
-              </div>
-            ))}
-          </div>
-          <div className="card" style={{ marginTop: 24 }}>
-            <h3>Every Sunday</h3>
-            <p style={{ marginTop: 8 }}>Worship service · {church.service} · {church.address}</p>
-          </div>
+    <div className="wrap">
+      <header className="page-head">
+        <span className="eyebrow">Events</span>
+        <h1>Gatherings and events</h1>
+        <p className="lede">
+          Upcoming church events appear here. For the next gathering, call or email the church office.
+        </p>
+      </header>
+
+      <div className="empty">
+        <h3>No upcoming events are posted yet</h3>
+        <p style={{ marginBottom: 22 }}>The church office can share dates for worship, meetings, and fellowship.</p>
+        <div className="btn-row" style={{ justifyContent: "center" }}>
+          <a className="btn btn-primary btn-sm" href={`tel:${church.phoneLinks[0]}`}>
+            <Icon name="phone" /> Call the church
+          </a>
         </div>
-      </section>
-      <Footer />
-    </>
+      </div>
+    </div>
   );
 }

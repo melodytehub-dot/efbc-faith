@@ -1,50 +1,41 @@
-import Link from 'next/link';
-import Icon from '../../components/Icons';
-import Footer from '../../components/Footer';
-import { wpSermons } from '../../lib/wp-data';
-import { sermons } from '../../lib/content';
+import type { Metadata } from "next";
+import { Icon } from "@/components/Icon";
+import { church } from "@/lib/church";
+
+export const metadata: Metadata = { title: "Sermons" };
 
 export default function SermonsPage() {
   return (
-    <>
-      <section className="block block--flush">
-        <div className="wrap">
-          <div className="section-head">
-            <div>
-              <span className="eyebrow">Latest sermons</span>
-              <h1 style={{ fontSize: 'clamp(38px,4.5vw,64px)' }}>Messages from the Word.</h1>
-              <p className="lead" style={{ marginTop: 14 }}>Preached at EFBC in faith, with the Baibal Thiang as our foundation.</p>
-            </div>
-          </div>
-          <div className="grid grid--2">
-            {wpSermons.map((s, i) => (
-              <div className="card" key={s.id}>
-                <div className="mono" style={{ fontSize: 11, color: 'var(--p-accent)' }}>Message {i + 1}</div>
-                <h3 style={{ marginTop: 10 }}>{s.title}</h3>
-                <p style={{ marginTop: 10 }}>{s.text.slice(0, 220)}{s.text.length > 220 ? '…' : ''}</p>
-                <div style={{ display: 'flex', gap: 10, marginTop: 18 }}>
-                  <a className="btn btn--ghost btn--sm" href={s.link} target="_blank" rel="noreferrer">Read at source <Icon name="arrow" /></a>
-                </div>
-              </div>
-            ))}
-          </div>
+    <div className="wrap">
+      <header className="page-head">
+        <span className="eyebrow">Sermons</span>
+        <h1>Hear the Word</h1>
+        <p className="lede">
+          Watch featured messages from Emmanuel Farm Baptist Church. The full archive is on our YouTube
+          channel.
+        </p>
+      </header>
+
+      <div className="video">
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${church.featuredVideoId}`}
+          title="Featured message from Emmanuel Farm Baptist Church"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+          loading="lazy"
+        />
+      </div>
+
+      <section className="section" style={{ paddingTop: 28 }}>
+        <div className="btn-row">
+          <a className="btn btn-primary" href={church.youtubeChannelUrl} target="_blank" rel="noopener noreferrer">
+            <Icon name="play" /> All sermons on YouTube
+          </a>
+          <a className="btn btn-ghost" href="/live">
+            Watch live
+          </a>
         </div>
       </section>
-      <section className="block">
-        <div className="wrap">
-          <span className="eyebrow">Featured series</span>
-          <div className="grid grid--3" style={{ marginTop: 20 }}>
-            {sermons.slice(0, 3).map((s) => (
-              <div className="photo-card" key={s.id}>
-                <img src={s.image} alt="" />
-                <div className="photo-card__body"><span className="mono" style={{ fontSize: 10, color: 'var(--p-accent)' }}>{s.ref}</span><h3 style={{ fontSize: 19, marginTop: 6 }}>{s.title}</h3></div>
-              </div>
-            ))}
-          </div>
-          <p style={{ marginTop: 24 }}><Link href="/live/" className="btn btn--primary">Watch previous services <Icon name="arrow" /></Link></p>
-        </div>
-      </section>
-      <Footer />
-    </>
+    </div>
   );
 }
