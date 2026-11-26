@@ -82,7 +82,6 @@ export const leadership: { name: string; role: string }[] = [
 ];
 
 export const ministries = [
-  "Worship Ministry",
   "Music Ministry",
   "Youth Ministry",
   "Children Ministry",
