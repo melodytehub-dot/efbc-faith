@@ -186,7 +186,6 @@ main { display: block; }
   display: inline-flex; align-items: center; gap: 8px; font-size: 12px; letter-spacing: 0.14em;
   text-transform: uppercase; color: var(--gold); font-weight: 600;
 }
-.eyebrow::before { content: ""; width: 18px; height: 1px; background: currentColor; opacity: 0.7; }
 h1, h2, h3 { margin: 0; letter-spacing: -0.025em; font-weight: 650; line-height: 1.12; }
 h1 { font-size: clamp(2.1rem, 4.6vw, 3.6rem); }
 h2 { font-size: clamp(1.5rem, 2.6vw, 2.1rem); }
@@ -250,6 +249,7 @@ p { margin: 0; }
 
 /* ---------- Home ---------- */
 .home-top { display: grid; gap: 20px; padding-top: 22px; }
+.home-side { display: grid; gap: 20px; align-content: start; }
 .hero {
   position: relative; min-height: 380px; border-radius: 28px; overflow: hidden;
   border: 1px solid var(--line); display: flex; flex-direction: column; justify-content: flex-end;
@@ -291,7 +291,6 @@ p { margin: 0; }
 .tile.is-live .tile-ic { background: rgba(255, 77, 94, 0.2); color: #ffd6da; }
 @media (min-width: 900px) {
   .home-top { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); align-items: stretch; }
-  .home-side { display: grid; gap: 20px; align-content: start; }
   .tiles { gap: 14px; }
   .tile { min-height: 150px; }
 }

@@ -10,7 +10,6 @@ export default function HymnsPage() {
       <header className="page-head">
         <span className="eyebrow">Khrihfa Hlabu</span>
         <h1>Hymns in Hakha Chin</h1>
-        <p className="lede">514 hymns from our church hymnal. Search by title or number, then open a hymn to read the full lyrics.</p>
       </header>
       <nav className="tabs" aria-label="Hymns and readings" style={{ marginBottom: 22 }}>
         <Link href="/hymns" aria-current="page">Hymns</Link>
