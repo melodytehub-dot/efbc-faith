@@ -10,7 +10,6 @@ export default function PrayerPage() {
       <header className="page-head">
         <span className="eyebrow">Prayer</span>
         <h1>We are praying with you</h1>
-        <p className="lede">Tell us how we can pray. Online prayer requests are coming soon.</p>
       </header>
 
       <div className="photo" style={{ aspectRatio: "16 / 6", marginBottom: 28 }}>

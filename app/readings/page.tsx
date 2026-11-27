@@ -10,7 +10,6 @@ export default function ReadingsPage() {
       <header className="page-head">
         <span className="eyebrow">Chawnghlang Relnak</span>
         <h1>Readings in Hakha Chin</h1>
-        <p className="lede">51 devotional readings in Hakha Chin. Search by title or number to read one.</p>
       </header>
       <nav className="tabs" aria-label="Hymns and readings" style={{ marginBottom: 22 }}>
         <Link href="/hymns">Hymns</Link>

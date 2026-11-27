@@ -22,7 +22,6 @@ export default function GivePage() {
           </span>
           <div>
             <b>Contact the church office</b>
-            <span className="muted">Our team will share how to give.</span>
           </div>
         </div>
         <div className="btn-row">
