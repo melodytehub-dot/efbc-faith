@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useState, type FormEvent } from "react";
 import { api, ApiError } from "@/lib/api";
+import { Icon } from "@/components/Icon";
+import { church } from "@/lib/church";
 import { formatWhen } from "@/lib/format";
 import { AnnouncementPanel, EventsPanel, LivePanel, SermonPanel, type LiveState, type SermonState } from "./AdminPanels";
 
@@ -18,11 +20,28 @@ const TABS: { id: Tab; label: string }[] = [
 export function AdminApp() {
   const [status, setStatus] = useState<"checking" | "signed-out" | "signed-in">("checking");
   const [tab, setTab] = useState<Tab>("overview");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     document.body.classList.add("is-admin");
     return () => document.body.classList.remove("is-admin");
   }, []);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMenuOpen(false);
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
+  function openSection(next: Tab) {
+    setTab(next);
+    setMenuOpen(false);
+  }
 
   useEffect(() => {
     api("/api/admin/session")
@@ -53,36 +72,61 @@ export function AdminApp() {
   return (
     <div className="admin">
       <header className="admin-top">
-        <span className="admin-brand">EFBC website admin</span>
-        <div className="admin-actions">
-          <a className="btn btn-ghost btn-sm" href="/">
-            View website
-          </a>
-          <button type="button" className="btn btn-ghost btn-sm" onClick={signOut}>
-            Sign out
-          </button>
-        </div>
+        <a href="/admin/" className="admin-logo" aria-label="EFBC admin home">
+          <img className="brand-logo brand-logo-sm" src="/images/logo-full.png" alt={church.name} width={750} height={150} />
+        </a>
+        <button
+          type="button"
+          className="menu-btn"
+          aria-expanded={menuOpen}
+          aria-controls="admin-menu"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          onClick={() => setMenuOpen((v) => !v)}
+        >
+          <Icon name={menuOpen ? "close" : "menu"} />
+        </button>
       </header>
 
-      <nav className="admin-tabs" aria-label="Admin sections">
-        {TABS.map((item) => (
-          <button
-            key={item.id}
-            type="button"
-            aria-current={tab === item.id ? "page" : undefined}
-            onClick={() => setTab(item.id)}
-          >
-            {item.label}
-          </button>
-        ))}
-      </nav>
+      <div className="admin-shell">
+        <div className="admin-scrim" data-open={menuOpen} aria-hidden="true" onClick={() => setMenuOpen(false)} />
+        <aside className="admin-side" id="admin-menu" data-open={menuOpen} aria-label="Admin menu">
+          <div className="admin-side-head">
+            <a href="/admin/" className="admin-logo" aria-label="EFBC admin home">
+              <img className="brand-logo brand-logo-sm" src="/images/logo-full.png" alt={church.name} width={750} height={150} />
+            </a>
+            <button type="button" className="menu-btn admin-side-close" aria-label="Close menu" onClick={() => setMenuOpen(false)}>
+              <Icon name="close" />
+            </button>
+          </div>
+          <nav className="admin-nav" aria-label="Admin sections">
+            {TABS.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                aria-current={tab === item.id ? "page" : undefined}
+                onClick={() => openSection(item.id)}
+              >
+                {item.label}
+              </button>
+            ))}
+          </nav>
+          <div className="admin-side-foot">
+            <a className="admin-nav-link" href="/">
+              View website
+            </a>
+            <button type="button" className="admin-nav-link" onClick={signOut}>
+              Sign out
+            </button>
+          </div>
+        </aside>
 
-      <div className="admin-main">
-        {tab === "overview" && <Overview onOpen={setTab} onExpired={expire} />}
-        {tab === "live" && <LivePanel onExpired={expire} />}
-        {tab === "events" && <EventsPanel onExpired={expire} />}
-        {tab === "sermon" && <SermonPanel onExpired={expire} />}
-        {tab === "announcement" && <AnnouncementPanel onExpired={expire} />}
+        <main className="admin-main">
+          {tab === "overview" && <Overview onOpen={openSection} onExpired={expire} />}
+          {tab === "live" && <LivePanel onExpired={expire} />}
+          {tab === "events" && <EventsPanel onExpired={expire} />}
+          {tab === "sermon" && <SermonPanel onExpired={expire} />}
+          {tab === "announcement" && <AnnouncementPanel onExpired={expire} />}
+        </main>
       </div>
     </div>
   );
@@ -109,6 +153,7 @@ function Login({ onSignedIn }: { onSignedIn: () => void }) {
   return (
     <div className="admin-login">
       <form className="admin-card admin-login-card" onSubmit={submit}>
+        <img className="brand-logo brand-logo-lg admin-login-logo" src="/images/logo-full.png" alt={church.name} width={750} height={150} />
         <h1>Sign in</h1>
         <p className="fine">Enter the admin password to manage the website.</p>
         <div className="field">

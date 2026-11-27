@@ -15,3 +15,9 @@ Apply these rules on every frontend or full-stack website task, for any client, 
 11. Report what you built and how it was tested in the developer chat or pull request, never inside the finished website.
 
 If you have access to a skill-loading system, load `website-production-quality` for website creation or modification and follow its detailed audit checklist.
+
+## Standing skill rules for every website update
+
+- Before any website change (copy, page, component, layout, or styling), apply the universal website quality skill from `C:\Users\Melodyte\Downloads\Compressed\universal-website-quality-skill.zip`. The installed copy is `.agents/skills/website-production-quality/`; if the zip is newer, reinstall from it.
+- For frontend design work, use the latest version of the taste skill (`design-taste-frontend`, upstream `Leonxlnx/taste-skill`). Update it with `npx skills add https://github.com/Leonxlnx/taste-skill --skill "design-taste-frontend"`, then run its checker and finish gate (`gate.mjs`) before reporting the change as done.
+- Check every change at 390px and 1440px widths, and confirm the admin dashboard has no sideways scrolling on phones.
