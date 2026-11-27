@@ -1,10 +1,27 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "efbc-faith",
+  "main": "worker/index.ts",
   "compatibility_date": "2026-11-23",
   "assets": {
-    "directory": "./out"
+    "directory": "./out",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
   },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "efbc-admin",
+      "database_id": "28db6081-7697-477d-b337-d6fc82518263",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "MEDIA",
+      "bucket_name": "efbc-media"
+    }
+  ],
   "observability": {
     "enabled": true
   }

@@ -7,3 +7,7 @@ shots/
 *.log
 .env*
 .DS_Store
+
+# Wrangler local state and dev secrets
+.wrangler/
+.dev.vars

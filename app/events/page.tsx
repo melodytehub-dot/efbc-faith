@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Icon } from "@/components/Icon";
+import { EventsList } from "@/components/EventsList";
 import { church } from "@/lib/church";
 
 export const metadata: Metadata = { title: "Events" };
@@ -9,21 +9,13 @@ export default function EventsPage() {
     <div className="wrap">
       <header className="page-head">
         <span className="eyebrow">Events</span>
-        <h1>Gatherings and events</h1>
-        <p className="lede">
-          Upcoming church events appear here. For the next gathering, call or email the church office.
-        </p>
+        <h1>Upcoming events</h1>
+        <p className="lede">For questions about a gathering, call the church office at {church.phones[0]}.</p>
       </header>
 
-      <div className="empty">
-        <h3>No upcoming events are posted yet</h3>
-        <p style={{ marginBottom: 22 }}>The church office can share dates for worship, meetings, and fellowship.</p>
-        <div className="btn-row" style={{ justifyContent: "center" }}>
-          <a className="btn btn-primary btn-sm" href={`tel:${church.phoneLinks[0]}`}>
-            <Icon name="phone" /> Call the church
-          </a>
-        </div>
-      </div>
+      <section className="section" style={{ paddingTop: 36 }}>
+        <EventsList />
+      </section>
     </div>
   );
 }

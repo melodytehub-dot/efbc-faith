@@ -72,6 +72,8 @@ export function SiteHeader() {
     };
   }, [open]);
 
+  if (pathname.startsWith("/admin")) return null;
+
   return (
     <>
     <header className="topbar">
@@ -136,6 +138,7 @@ export function SiteHeader() {
 
 export function TabBar() {
   const pathname = usePathname() || "/";
+  if (pathname.startsWith("/admin")) return null;
   return (
     <nav className="tabbar" aria-label="App">
       {tabs.map((tab) => (
@@ -155,6 +158,8 @@ export function TabBar() {
 }
 
 export function SiteFooter() {
+  const pathname = usePathname() || "/";
+  if (pathname.startsWith("/admin")) return null;
   return (
     <footer className="footer">
       <div className="wrap">

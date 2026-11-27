@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Figtree } from "next/font/google";
 import "./globals.css";
 import { SiteFooter, SiteHeader, TabBar } from "@/components/SiteChrome";
+import { Announcement } from "@/components/Announcement";
 import { church } from "@/lib/church";
 import Template from "./template";
 
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
         <SiteHeader />
         <main id="main">
+          <Announcement />
           <Template>{children}</Template>
         </main>
         <SiteFooter />

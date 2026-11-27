@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { FeaturedSermon } from "@/components/FeaturedSermon";
 import { Icon } from "@/components/Icon";
 import { church } from "@/lib/church";
 import sermons from "../../public/data/sermons.json";
@@ -19,15 +20,7 @@ export default function SermonsPage() {
         </p>
       </header>
 
-      <div className="video reveal">
-        <iframe
-          src={`https://www.youtube-nocookie.com/embed/${church.featuredVideoId}`}
-          title="Featured message from Emmanuel Farm Baptist Church"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-          loading="lazy"
-        />
-      </div>
+      <FeaturedSermon />
 
       <section className="section" style={{ paddingTop: 28 }}>
         <div className="btn-row">
